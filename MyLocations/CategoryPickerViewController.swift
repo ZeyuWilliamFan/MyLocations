@@ -28,7 +28,7 @@ class CategoryPickerViewController: UITableViewController {
         
             if let indexPath = tableView.indexPathForCell(cell) {
                 selectedCategoryName = categories[indexPath.row]
-                println("dsadas\(selectedCategoryName)")
+            
             }
         }
     }

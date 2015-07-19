@@ -39,14 +39,14 @@ class LocationDetailsViewController: UITableViewController {
         let controller = segue.sourceViewController as! CategoryPickerViewController
         categoryName = controller.selectedCategoryName
         categoryLabel.text = categoryName
-        println("\(categoryLabel.text)")
     }
     
     @IBAction func done() {
         let hudView = HudView.hudInView(navigationController!.view,animated: true)
         hudView.text = "Tagged"
         
-        let location = NSEntityDescription.insertNewObjectForEntityForName( "Location", inManagedObjectContext: managedObjectContext) as! Location
+        let location = NSEntityDescription.insertNewObjectForEntityForName( "Location",
+                                                        inManagedObjectContext: managedObjectContext) as! Location
         
         location.locationDescription = descriptionText
         location.category = categoryName
@@ -57,8 +57,8 @@ class LocationDetailsViewController: UITableViewController {
         
         var error: NSError?
         if !managedObjectContext.save(&error) {
-            println("Error: \(error)")
-            abort()
+            fatalCoreDataError(error)
+            return
         }
         
         afterDelay(0.6, {self.dismissViewControllerAnimated(true, completion: nil)})
@@ -73,7 +73,7 @@ class LocationDetailsViewController: UITableViewController {
         dateLabel.text = formatDate(date)
         descriptionTextView.text = descriptionText
         categoryLabel.text = categoryName
-        categoryLabel.text = ""
+
         
         latitudeLabel.text = String(format: "%.8f", coordinate.latitude)
         longitudeLabel.text = String(format: "%.8f", coordinate.longitude)

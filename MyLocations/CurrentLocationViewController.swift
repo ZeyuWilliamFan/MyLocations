@@ -125,7 +125,7 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
                 performingReverseGeocoding = true
                 geocoder.reverseGeocodeLocation(location, completionHandler: {
                                                             placemarks, error in
-                                                        println("*** Found placemarks: \(placemarks), error: \(error)")
+                                                        
                                                         self.lastGeocodingError = error
                                                         if error == nil && !placemarks.isEmpty {
                                                             self.placemark = placemarks.last as? CLPlacemark
