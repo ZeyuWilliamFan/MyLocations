@@ -18,8 +18,19 @@ private let dateFormatter: NSDateFormatter = {
 }()
 
 class LocationDetailsViewController: UITableViewController {
-    
     var managedObjectContext: NSManagedObjectContext!
+    
+    var locationToEdit: Location? {
+        didSet {
+            if let location = locationToEdit {
+                descriptionText = location.locationDescription
+                categoryName = location.category
+                date = location.date
+                coordinate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
+                placemark = location.placemark
+            }
+        }
+    }
     
     var date = NSDate()
     
@@ -35,6 +46,11 @@ class LocationDetailsViewController: UITableViewController {
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var addPhotoLabel: UILabel!
+    
+    var image: UIImage?
+    
     @IBAction func categoryPickerDidPickCategory(segue: UIStoryboardSegue) {
         let controller = segue.sourceViewController as! CategoryPickerViewController
         categoryName = controller.selectedCategoryName
@@ -43,10 +59,17 @@ class LocationDetailsViewController: UITableViewController {
     
     @IBAction func done() {
         let hudView = HudView.hudInView(navigationController!.view,animated: true)
-        hudView.text = "Tagged"
-        
-        let location = NSEntityDescription.insertNewObjectForEntityForName( "Location",
-                                                        inManagedObjectContext: managedObjectContext) as! Location
+        var location: Location
+            
+        if let temp = locationToEdit {
+            hudView.text = "Updated"
+            location = temp
+        }
+        else {
+            hudView.text = "Tagged"
+            location = NSEntityDescription.insertNewObjectForEntityForName( "Location",
+                                                            inManagedObjectContext: managedObjectContext) as! Location
+        }
         
         location.locationDescription = descriptionText
         location.category = categoryName
@@ -70,6 +93,10 @@ class LocationDetailsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let location = locationToEdit {
+            title = "Edit Location"
+        }
+        
         dateLabel.text = formatDate(date)
         descriptionTextView.text = descriptionText
         categoryLabel.text = categoryName
@@ -110,6 +137,18 @@ class LocationDetailsViewController: UITableViewController {
                 
         if indexPath.section == 0 && indexPath.row == 0 {
             return 88
+        }
+        else if indexPath.section == 1 {
+            if imageView.hidden {
+                return 44
+            }
+            else {
+                    let ratio = 260 / imageView.image!.size.width
+                    let newHeight = imageView.image!.size.height * ratio
+                    println("\(newHeight)")
+                    
+                return round(newHeight) + 20
+            }
         }
         else if indexPath.section == 2 && indexPath.row == 2 {
             addressLabel.frame.size = CGSize(width: view.bounds.size.width - 115, height: 10000)
@@ -156,11 +195,23 @@ class LocationDetailsViewController: UITableViewController {
         if indexPath.section == 0 && indexPath.row == 0 {
             descriptionTextView.becomeFirstResponder()
         }
+        else if indexPath.section == 1 && indexPath.row == 0 {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            pickPhoto()
+        }
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         descriptionTextView.frame.size.width = view.frame.size.width - 30
+    }
+    
+    func showImage(image: UIImage) {
+        imageView.image = image
+        imageView.hidden = false
+        let ratio = imageView.image!.size.height / imageView.image!.size.width
+        imageView.frame = CGRect(x: 10, y: 10, width: 260, height: 260 * ratio)
+        addPhotoLabel.hidden = true
     }
     
 }
@@ -179,6 +230,63 @@ extension LocationDetailsViewController: UITextViewDelegate {
             descriptionText = textView.text
     }
     
+}
+
+extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func takePhotoWithCamera() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .Camera
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject])
+    {
+        image = info[UIImagePickerControllerEditedImage] as? UIImage
+        if let image = image {
+            showImage(image)
+        }
+        tableView.reloadData()
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func choosePhotoFromLibrary() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .PhotoLibrary
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
+    func pickPhoto() {
+        if true || UIImagePickerController.isSourceTypeAvailable(.Camera) {
+            showPhotoMenu()
+        }
+        else {
+            choosePhotoFromLibrary()
+        }
+    }
+    
+    func showPhotoMenu() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let takePhotoAction = UIAlertAction(title: "Take Photo", style: .Default,
+                                            handler: {_ in self.takePhotoWithCamera()})
+        alertController.addAction(takePhotoAction)
+        
+        let chooseFromLibraryAction = UIAlertAction(title: "Choose From Library", style: .Default,
+                                                    handler: {_ in self.choosePhotoFromLibrary()})
+        alertController.addAction(chooseFromLibraryAction)
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
 }
 
 

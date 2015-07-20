@@ -11,6 +11,8 @@
 		1520D9A71B58CE5800B1E91E /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1520D9A61B58CE5800B1E91E /* Location.swift */; };
 		152566A61B54D1410000BC23 /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152566A51B54D1410000BC23 /* HudView.swift */; };
 		152566A81B54DC520000BC23 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152566A71B54DC520000BC23 /* Functions.swift */; };
+		1537A9031B5B83C600179BD8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1537A9021B5B83C600179BD8 /* MapKit.framework */; };
+		1537A9051B5B846000179BD8 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1537A9041B5B846000179BD8 /* MapViewController.swift */; };
 		155E775A1B539CF100FE6E22 /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155E77591B539CF100FE6E22 /* CategoryPickerViewController.swift */; };
 		1591C9161B5B4959007DA03B /* LocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1591C9151B5B4959007DA03B /* LocationsViewController.swift */; };
 		15BEAB531B5B518800B7E023 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BEAB521B5B518800B7E023 /* LocationCell.swift */; };
@@ -39,6 +41,8 @@
 		1520D9A61B58CE5800B1E91E /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = ../Location.swift; sourceTree = "<group>"; };
 		152566A51B54D1410000BC23 /* HudView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
 		152566A71B54DC520000BC23 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		1537A9021B5B83C600179BD8 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		1537A9041B5B846000179BD8 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		155E77591B539CF100FE6E22 /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
 		1591C9151B5B4959007DA03B /* LocationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationsViewController.swift; sourceTree = "<group>"; };
 		15BEAB521B5B518800B7E023 /* LocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
@@ -61,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1537A9031B5B83C600179BD8 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +82,7 @@
 		15C1C8E21B4F570F0096761B = {
 			isa = PBXGroup;
 			children = (
+				1537A9021B5B83C600179BD8 /* MapKit.framework */,
 				15C1C8ED1B4F570F0096761B /* MyLocations */,
 				15C1C9051B4F57100096761B /* MyLocationsTests */,
 				15C1C8EC1B4F570F0096761B /* Products */,
@@ -108,6 +114,7 @@
 				15DBBE4C1B53822F0011130D /* LocationDetailsViewController.swift */,
 				1591C9151B5B4959007DA03B /* LocationsViewController.swift */,
 				15C1C8F61B4F570F0096761B /* Main.storyboard */,
+				1537A9041B5B846000179BD8 /* MapViewController.swift */,
 				15C1C8F41B4F570F0096761B /* SecondViewController.swift */,
 				15C1C8EE1B4F570F0096761B /* Supporting Files */,
 			);
@@ -246,6 +253,7 @@
 				152566A61B54D1410000BC23 /* HudView.swift in Sources */,
 				1520D9A71B58CE5800B1E91E /* Location.swift in Sources */,
 				15BEAB531B5B518800B7E023 /* LocationCell.swift in Sources */,
+				1537A9051B5B846000179BD8 /* MapViewController.swift in Sources */,
 				152566A81B54DC520000BC23 /* Functions.swift in Sources */,
 				15C1C8F11B4F570F0096761B /* AppDelegate.swift in Sources */,
 				155E775A1B539CF100FE6E22 /* CategoryPickerViewController.swift in Sources */,
